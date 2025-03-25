@@ -5,6 +5,8 @@ MSA E-commerce 구현
 ## 사용 툴 및 아키텍쳐
 - Docker
   - Docker Swarm 사용 + shell script - (Auto Scaling)
+  - OR
+  - Docker -> K8S 사용 
 - SPRING CLOUD EUREKA (DISCOVERY SERVICE)
 - SPRING CLOUD API-GATEWAY
   - 인가 
