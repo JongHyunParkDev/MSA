@@ -1,4 +1,4 @@
-package com.pjhdev.msa_e_commerce_api_gateway
+package com.pjhdev.apigateway
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
