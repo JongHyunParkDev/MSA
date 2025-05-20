@@ -1,4 +1,4 @@
-package com.pjhdev.test_service
+package com.pjhdev.testservice
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest

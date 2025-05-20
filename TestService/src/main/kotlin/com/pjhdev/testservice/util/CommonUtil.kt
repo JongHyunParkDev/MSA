@@ -1,4 +1,4 @@
-package com.pjhdev.test_service.util
+package com.pjhdev.testservice.util
 
 import jakarta.servlet.http.HttpServletRequest
 

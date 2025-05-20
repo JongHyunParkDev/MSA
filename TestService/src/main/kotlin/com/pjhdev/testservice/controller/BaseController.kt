@@ -1,7 +1,7 @@
-package com.pjhdev.test_service.controller
+package com.pjhdev.testservice.controller
 
-import com.pjhdev.test_service.util.CommonUtil
-import com.pjhdev.test_service.util.logger
+import com.pjhdev.testservice.util.CommonUtil
+import com.pjhdev.testservice.util.logger
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
