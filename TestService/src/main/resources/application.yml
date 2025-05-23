@@ -1,6 +1,6 @@
 server:
 #  Random Port 사용
-  port: 0
+  port: 8081 #0
 
 spring:
   application:
