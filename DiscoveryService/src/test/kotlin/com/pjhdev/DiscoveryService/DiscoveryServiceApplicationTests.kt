@@ -1,10 +1,10 @@
-package com.pjhdev.test_service
+package com.pjhdev.DiscoveryService
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class TestServiceApplicationTests {
+class DiscoveryServiceApplicationTests {
 
 	@Test
 	fun contextLoads() {
