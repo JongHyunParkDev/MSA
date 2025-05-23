@@ -20,7 +20,7 @@ MSA E-commerce 구현
 - KAFKA
   -  SAGA 패턴 적용
   -  Service 에 event 연동
-- SPRING BOOT, JAVA, JPA (Hibernate), QueryDSL, Actuator
+- SPRING BOOT, JAVA (or Kotlin), JPA (Hibernate), QueryDSL, Actuator
   - MEMBER SERVICE
   - ORDER SERVICE
   - PRODUCT SERVICE
