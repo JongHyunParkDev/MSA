@@ -4,7 +4,7 @@ server:
 
 spring:
   application:
-    name: TestService
+    name: Test-Service
 
 eureka:
   # Port 를 랜덤 포트 사용하게 될 경우 Eureka 는 port 0으로 하나만 display 됨으로 instance 이름을 지정해준다.

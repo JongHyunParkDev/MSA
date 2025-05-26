@@ -1,0 +1,36 @@
+server:
+  port: 8000
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      default-filters:
+        - name: GlobalFilter
+          args:
+            baseMessage: API Gateway Global Filter
+            preLogger: true
+            postLogger: true
+
+      routes:
+        - id: test-service
+          uri: lb://TEST-SERVICE
+          predicates:
+            - Path=/test-service/**
+          filters:
+            - name: CustomFilter
+            - name: LoggingFilter
+              args:
+                baseMessage: Logging Filter
+                preLogger: true
+                postLogger: true
+#            - AddRequestHeader=test-request, test-request-header
+#            - AddResponseHeader=test-response, test-response-header
