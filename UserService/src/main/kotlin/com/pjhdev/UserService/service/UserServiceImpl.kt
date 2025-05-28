@@ -20,4 +20,16 @@ class UserServiceImpl (
 
         return UserDto.fromUserEntity(savedEntity)
     }
+
+    override fun getUserByEmail(email: String): UserDto {
+        val userEntity = userRepository.findByEmail(email)
+
+        return UserDto.fromUserEntity(userEntity)
+    }
+
+    override fun getUserByAll(): List<UserDto> {
+        val userEntityList = userRepository.findAll()
+
+        return UserDto.fromUserEntityList(userEntityList)
+    }
 }

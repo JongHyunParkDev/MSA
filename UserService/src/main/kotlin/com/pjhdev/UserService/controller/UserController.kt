@@ -2,8 +2,8 @@ package com.pjhdev.UserService.controller
 
 import com.pjhdev.UserService.config.AppProperties
 import com.pjhdev.UserService.dto.UserDto
-import com.pjhdev.UserService.entity.UserEntity
-import com.pjhdev.UserService.service.UserServiceImpl
+import com.pjhdev.UserService.service.UserService
+
 import com.pjhdev.UserService.vo.RequestUser
 import com.pjhdev.UserService.vo.ResponseUser
 import org.springframework.http.HttpStatus
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/")
 class UserController (
     val appProperties: AppProperties,
-    val userServiceImpl: UserServiceImpl) {
+    val userService: UserService) {
 
     @GetMapping("/health-check")
     fun healthCheck(): ResponseEntity<String> {
@@ -33,7 +33,7 @@ class UserController (
     @PostMapping("/users")
     fun createUser(@RequestBody requestUser: RequestUser): ResponseEntity<ResponseUser> {
         val userDto = UserDto.fromRequestUser(requestUser)
-        val responseUser = userServiceImpl.createUser(userDto).toResponseUser()
+        val responseUser = userService.createUser(userDto).toResponseUser(false)
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseUser)
     }
