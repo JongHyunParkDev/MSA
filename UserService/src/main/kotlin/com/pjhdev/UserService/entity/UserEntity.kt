@@ -2,6 +2,8 @@ package com.pjhdev.UserService.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
@@ -32,5 +34,9 @@ data class UserEntity(
 
     @LastModifiedDate
     @Column(nullable = false)
-    var lastModifiedAt: LocalDateTime = LocalDateTime.now()
+    var lastModifiedAt: LocalDateTime = LocalDateTime.now(),
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    var role: UserRole = UserRole.USER
 )

@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import java.time.LocalDateTime
 
 data class UserDto(
+    val id: Long? = null,
     val name: String,
     val email: String,
     val decryptedPassword: String? = null,
@@ -18,18 +19,23 @@ data class UserDto(
         fun fromRequestUser(requestUser: RequestUser): UserDto {
             return UserDto(
                 email = requestUser.email,
-                name = requestUser.name,
                 decryptedPassword = requestUser.password,
+                name = requestUser.name,
             )
         }
         fun fromUserEntity(userEntity: UserEntity): UserDto {
             return UserDto(
+                id = userEntity.id,
                 email = userEntity.email,
                 name = userEntity.name,
                 encryptedPassword = userEntity.password,
                 createdAt = userEntity.createdAt,
                 lastModifiedAt = userEntity.lastModifiedAt
             )
+        }
+
+        fun fromUserEntityList(userEntities: List<UserEntity>): List<UserDto> {
+            return userEntities.map { fromUserEntity(it) }
         }
     }
 
@@ -41,8 +47,12 @@ data class UserDto(
         )
     }
 
-    fun toResponseUser(): ResponseUser {
+    fun toResponseUser(isAdmin: Boolean): ResponseUser {
+        var id: Long? = null
+        if (isAdmin) id = this.id
+
         return ResponseUser(
+            id = id,
             email = this.email,
             name = this.name,
             createdAt = this.createdAt,

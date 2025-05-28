@@ -34,3 +34,10 @@ spring:
                 postLogger: true
 #            - AddRequestHeader=test-request, test-request-header
 #            - AddResponseHeader=test-response, test-response-header
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/**
+          filters:
+            - StripPrefix=1
+#            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
