@@ -10,14 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 @SpringBootApplication
 @ConfigurationPropertiesScan("com.pjhdev.UserService.config")
 @EnableDiscoveryClient
-class UserServiceApplication {
-
-	@Bean
-	fun passwordEncoder(): BCryptPasswordEncoder {
-		return BCryptPasswordEncoder()
-	}
-}
-
+class UserServiceApplication
 fun main(args: Array<String>) {
 	runApplication<UserServiceApplication>(*args)
 }
