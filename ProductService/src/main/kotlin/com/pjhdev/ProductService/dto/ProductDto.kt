@@ -10,9 +10,6 @@ data class ProductDto (
     val qty: Int,
     val unitPrice: Int,
     val createdAt: LocalDateTime,
-
-    val orderId: String? = null,
-    val userId: String? = null,
 ) {
     companion object {
         fun fromProductEntity(productEntity: ProductEntity): ProductDto {

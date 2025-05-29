@@ -1,26 +1,32 @@
-package com.pjhdev.ProductService.entity
+package com.pjhdev.OrderService.entity
 
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "tm_product")
-data class ProductEntity (
+@Table(name = "tm_order")
+data class OrderEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
     @Column(nullable = false)
-    var productName: String,
-
-    @Column(nullable = false)
-    var stock: Int,
+    var qty: Int,
 
     @Column(nullable = false)
     var unitPrice: Int,
 
+    @Column(nullable = false)
+    var totalPrice: Int,
+
+    @Column(nullable = false)
+    var productId: Long,
+
+    @Column(nullable = false)
+    var userId: Long,
+
     @CreatedDate
     @Column(updatable = false, nullable = false)
-    var createdAt: LocalDateTime
+    var createdAt: LocalDateTime = LocalDateTime.now(),
 )

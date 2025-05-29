@@ -12,8 +12,8 @@ data class UserDto(
     val email: String,
     val decryptedPassword: String? = null,
     val encryptedPassword: String? = null,
-    var createdAt: LocalDateTime? = null,
-    var lastModifiedAt: LocalDateTime? = null,
+    val createdAt: LocalDateTime? = null,
+    val lastModifiedAt: LocalDateTime? = null,
 ) {
     companion object {
         fun fromRequestUser(requestUser: RequestUser): UserDto {

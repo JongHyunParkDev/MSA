@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 class ProductServiceImpl(
     val productRepository: ProductRepository
 ) : ProductService {
-    override fun getAllProducts(): Iterable<ProductDto> {
+    override fun getAllProducts(): List<ProductDto> {
         val productEntityList = productRepository.findAll()
 
         return ProductDto.fromProductEntityList(productEntityList)
