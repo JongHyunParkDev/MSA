@@ -41,3 +41,15 @@ spring:
           filters:
             - StripPrefix=1
 #            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id: product-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/product-service/**
+          filters:
+            - StripPrefix=1
+        - id: order-service
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/order-service/**
+          filters:
+            - StripPrefix=1
