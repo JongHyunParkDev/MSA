@@ -29,4 +29,10 @@ eureka:
 app:
   message: E-Commerce User Service
   allowIp: 172.30.1.26
-
+  token:
+    access:
+      expiration_time: 3600000 # a hour
+      secret: qzXxcu0eMmiTljmLeiikLY3L2ULGDwbLbNMsvT/oEJ0lr3GGEtx4zVygOwZB94yM+HxmsTYyt09xe8WsxSUf1A==
+    refresh:
+      expiration_time: 86400000 # a day
+      secret: ckoQEuWYg3fjSDsb30HPDK9xcTFogHpHkpgj7EBofs+/Ig5Y3CZ6I9gEKK1wcacDolQtukXFcAFJulWvRvCLdA==

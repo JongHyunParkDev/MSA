@@ -37,7 +37,7 @@ class SecurityConfig(
                     .access(createIpAccessManager())
             }
             .addFilter(
-                authenticationFilter(authenticationManager)
+                authenticationFilter(authenticationManager, appProperties)
             )
             .build()
     }
@@ -50,8 +50,8 @@ class SecurityConfig(
     }
 
     @Bean
-    fun authenticationFilter(authenticationManager: AuthenticationManager): AuthenticationFilter {
-        return AuthenticationFilter(authenticationManager, userService, objectMapper)
+    fun authenticationFilter(authenticationManager: AuthenticationManager, appProperties: AppProperties): AuthenticationFilter {
+        return AuthenticationFilter(authenticationManager, userService, objectMapper, appProperties)
     }
 
     private fun createIpAccessManager(): WebExpressionAuthorizationManager {

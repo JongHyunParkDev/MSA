@@ -1,8 +1,10 @@
 package com.pjhdev.UserService.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.pjhdev.UserService.config.AppProperties
 import com.pjhdev.UserService.service.UserService
 import com.pjhdev.UserService.vo.RequestLogin
+import io.jsonwebtoken.Jwts
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -17,7 +19,8 @@ import java.util.*
 class AuthenticationFilter(
     authenticationManagerParam: AuthenticationManager,
     val userService: UserService,
-    val objectMapper: ObjectMapper
+    val objectMapper: ObjectMapper,
+    val appProperties: AppProperties,
 ): UsernamePasswordAuthenticationFilter() {
 
     init {
@@ -47,7 +50,10 @@ class AuthenticationFilter(
         val userDto = userService.getUserByEmail(userName)
 
 
+        val accessToken = Jwts.builder()
+            .subject(userDto.id.toString())
+            .expiration(Date(appProperties.token.access.expirationTime))
 
-        super.successfulAuthentication(request, response, chain, authResult)
+//        super.successfulAuthentication(request, response, chain, authResult)
     }
 }
