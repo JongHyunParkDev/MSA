@@ -14,12 +14,12 @@ data class AppProperties (
     )
 
     data class Access(
-        val expirationTime: Long,
+        val expirationHour: Long,
         val secret: String
     )
 
     data class Refresh(
-        val expirationTime: Long,
+        val expirationHour: Long,
         val secret: String
     )
 }

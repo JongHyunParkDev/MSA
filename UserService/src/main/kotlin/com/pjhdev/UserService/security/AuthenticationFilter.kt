@@ -5,6 +5,9 @@ import com.pjhdev.UserService.config.AppProperties
 import com.pjhdev.UserService.service.UserService
 import com.pjhdev.UserService.vo.RequestLogin
 import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.io.Decoders
+import io.jsonwebtoken.security.Keys
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -14,6 +17,8 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 import java.util.*
 
 class AuthenticationFilter(
@@ -40,20 +45,34 @@ class AuthenticationFilter(
 
     // JWT 토큰 발급 access, refresh
     override fun successfulAuthentication(
-        request: HttpServletRequest?,
-        response: HttpServletResponse?,
-        chain: FilterChain?,
-        authResult: Authentication?
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        chain: FilterChain,
+        authResult: Authentication
     ) {
         // email
         val userName = (authResult!!.principal as User).username
         val userDto = userService.getUserByEmail(userName)
 
+        val now = Instant.now()
+        val accessExpiration = now.plus(appProperties.token.access.expirationHour, ChronoUnit.HOURS)
+        val refreshExpiration = now.plus(appProperties.token.refresh.expirationHour, ChronoUnit.HOURS)
 
         val accessToken = Jwts.builder()
             .subject(userDto.id.toString())
-            .expiration(Date(appProperties.token.access.expirationTime))
+            .expiration(Date.from(accessExpiration))
+            .signWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(appProperties.token.access.secret)))
+            .compact()
 
-//        super.successfulAuthentication(request, response, chain, authResult)
+        val refreshToken = Jwts.builder()
+            .subject(userDto.id.toString())
+            .expiration(Date.from(refreshExpiration))
+            .signWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(appProperties.token.refresh.secret)))
+            .compact()
+
+
+
+        response.addHeader("accessToken", accessToken);
+        response.addHeader("refreshToken", refreshToken);
     }
 }
