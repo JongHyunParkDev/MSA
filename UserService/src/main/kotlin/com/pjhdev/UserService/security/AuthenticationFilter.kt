@@ -60,6 +60,7 @@ class AuthenticationFilter(
 
         val accessToken = Jwts.builder()
             .subject(userDto.id.toString())
+            .claim("role", userDto.roleId)
             .expiration(Date.from(accessExpiration))
             .signWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(appProperties.token.access.secret)))
             .compact()
@@ -69,8 +70,6 @@ class AuthenticationFilter(
             .expiration(Date.from(refreshExpiration))
             .signWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(appProperties.token.refresh.secret)))
             .compact()
-
-
 
         response.addHeader("accessToken", accessToken);
         response.addHeader("refreshToken", refreshToken);

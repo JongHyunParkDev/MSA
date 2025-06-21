@@ -49,7 +49,7 @@ class JwtAuthorizationFilter(var env: Environment) :
                 request.headers[HttpHeaders.AUTHORIZATION]!![0]
             val jwt = authorizationHeader.replace("Bearer ", "")
 
-            val validationResult = isJwtValid(jwt)
+            val validationResult = isJwtValid(jwt, request.path.contextPath().value())
 
             if (!validationResult.isValid) {
                 return@GatewayFilter onError(
@@ -78,20 +78,32 @@ class JwtAuthorizationFilter(var env: Environment) :
 
     data class JwtValidationResult(val isValid: Boolean, val errorMessage: String = "", val clientMessage: String = "")
 
-    private fun isJwtValid(jwt: String): JwtValidationResult {
+    private fun isJwtValid(jwt: String, path: String): JwtValidationResult {
         return try {
-            val subject = Jwts
+            // 1. authorization 인증
+            val payload = Jwts
                 .parser()
-                .verifyWith(Keys.hmacShaKeyFor(jwtSecret)) // 초기화된 jwtSecret 사용
+                .verifyWith(Keys.hmacShaKeyFor(jwtSecret))
                 .build()
                 .parseSignedClaims(jwt)
                 .payload
-                .subject
 
-            if (subject.isNullOrEmpty()) {
+            // 2. path 확인
+            val role = payload["role"] as String
+
+            if (payload.subject.isNullOrEmpty()) {
                 JwtValidationResult(false, "JWT subject is empty.", "Invalid token.")
-            } else {
-                JwtValidationResult(true) // Valid case
+            }
+            else {
+                if (role.isEmpty()) {
+                    JwtValidationResult(false, "JWT Claim Authority is empty.", "Invalid token.")
+                }
+                else if (role != "ADMIN" && path.contains("admin")) {
+                    JwtValidationResult(false, "Jwt Token doesn't have a authority ", "No authority Jwt Token")
+                }
+                else {
+                    JwtValidationResult(true) // Valid case
+                }
             }
         } catch (ex: SignatureException) {
             logger.error("JWT signature validation failed: ${ex.message}")
