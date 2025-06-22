@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 @ControllerAdvice
 class GlobalExceptionHandler {
     val logger = logger()
+
     @ExceptionHandler(ApiException::class)
     fun handleApiException(ex: ApiException): ResponseEntity<ErrorResponse> {
         val code = ex.code

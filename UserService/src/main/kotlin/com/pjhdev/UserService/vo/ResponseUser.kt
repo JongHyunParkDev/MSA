@@ -3,7 +3,6 @@ package com.pjhdev.UserService.vo
 import com.fasterxml.jackson.annotation.JsonInclude
 import java.time.LocalDateTime
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 data class ResponseUser (
     val id: Long?,
     val email: String,

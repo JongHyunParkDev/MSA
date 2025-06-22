@@ -8,6 +8,13 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
 
+app:
+  token:
+    access:
+      secret: qzXxcu0eMmiTljmLeiikLY3L2ULGDwbLbNMsvT/oEJ0lr3GGEtx4zVygOwZB94yM+HxmsTYyt09xe8WsxSUf1A==
+    refresh:
+      secret: ckoQEuWYg3fjSDsb30HPDK9xcTFogHpHkpgj7EBofs+/Ig5Y3CZ6I9gEKK1wcacDolQtukXFcAFJulWvRvCLdA==
+
 spring:
   application:
     name: api-gateway
@@ -34,12 +41,32 @@ spring:
                 postLogger: true
 #            - AddRequestHeader=test-request, test-request-header
 #            - AddResponseHeader=test-response, test-response-header
+#        login user-service
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/login
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - StripPrefix=1
+#        join user-service
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/users
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - StripPrefix=1
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/user-service/**
           filters:
+            - RemoveRequestHeader=Cookie
             - StripPrefix=1
+            - JwtAuthorizationFilter
 #            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: product-service
           uri: lb://PRODUCT-SERVICE

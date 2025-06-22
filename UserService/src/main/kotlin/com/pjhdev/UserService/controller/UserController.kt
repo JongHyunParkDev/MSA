@@ -6,6 +6,7 @@ import com.pjhdev.UserService.service.UserService
 
 import com.pjhdev.UserService.vo.RequestUser
 import com.pjhdev.UserService.vo.ResponseUser
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -31,7 +32,7 @@ class UserController (
     }
 
     @PostMapping("/users")
-    fun createUser(@RequestBody requestUser: RequestUser): ResponseEntity<ResponseUser> {
+    fun createUser(@RequestBody @Valid requestUser: RequestUser): ResponseEntity<ResponseUser> {
         val userDto = UserDto.fromRequestUser(requestUser)
         val responseUser = userService.createUser(userDto).toResponseUser(false)
 

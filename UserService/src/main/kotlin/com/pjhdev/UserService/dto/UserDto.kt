@@ -1,6 +1,7 @@
 package com.pjhdev.UserService.dto
 
 import com.pjhdev.UserService.entity.UserEntity
+import com.pjhdev.UserService.entity.UserRole
 import com.pjhdev.UserService.vo.RequestUser
 import com.pjhdev.UserService.vo.ResponseUser
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -14,6 +15,7 @@ data class UserDto(
     val encryptedPassword: String? = null,
     val createdAt: LocalDateTime? = null,
     val lastModifiedAt: LocalDateTime? = null,
+    val roleId: UserRole? = null
 ) {
     companion object {
         fun fromRequestUser(requestUser: RequestUser): UserDto {
