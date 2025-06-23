@@ -1,0 +1,12 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: Config-Server
+  cloud:
+    config:
+      server:
+        git:
+          uri: file://C:/Users/pjh/Desktop/dev_study/MSA-E-commerce-config/git-local-repo
+          default-label: master

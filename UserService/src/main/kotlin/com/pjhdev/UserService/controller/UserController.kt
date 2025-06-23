@@ -23,7 +23,16 @@ class UserController (
 
     @GetMapping("/health-check")
     fun healthCheck(): ResponseEntity<String> {
-        return ResponseEntity.ok("ok")
+        val msg = String.format("It's Working in User Service"
+                + "token.access.secret=" + appProperties.token.access.secret
+                + "token.access.expirationHour=" + appProperties.token.access.expirationHour
+                + "token.refresh.secret=" + appProperties.token.refresh.secret
+                + "token.refresh.expirationHour=" + appProperties.token.refresh.expirationHour
+
+        )
+
+        return ResponseEntity.ok(msg)
+//        return ResponseEntity.ok("ok")
     }
 
     @GetMapping("/message")
