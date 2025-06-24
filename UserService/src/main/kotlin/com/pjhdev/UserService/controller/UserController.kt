@@ -24,10 +24,12 @@ class UserController (
     @GetMapping("/health-check")
     fun healthCheck(): ResponseEntity<String> {
         val msg = String.format("It's Working in User Service"
-                + "token.access.secret=" + appProperties.token.access.secret
-                + "token.access.expirationHour=" + appProperties.token.access.expirationHour
-                + "token.refresh.secret=" + appProperties.token.refresh.secret
-                + "token.refresh.expirationHour=" + appProperties.token.refresh.expirationHour
+                + "\nmessage=" + appProperties.message
+                + "\nallowIp=" + appProperties.allowIp
+                + "\ntoken.access.secret=" + appProperties.token.access.secret
+                + "\ntoken.access.expirationHour=" + appProperties.token.access.expirationHour
+                + "\ntoken.refresh.secret=" + appProperties.token.refresh.secret
+                + "\ntoken.refresh.expirationHour=" + appProperties.token.refresh.expirationHour
 
         )
 

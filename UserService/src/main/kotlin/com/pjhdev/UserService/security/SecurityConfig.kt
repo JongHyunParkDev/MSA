@@ -32,6 +32,11 @@ class SecurityConfig(
             }
             .authorizeHttpRequests { authz ->
                 authz
+                    .requestMatchers("/actuator/**")
+                    .permitAll()
+            }
+            .authorizeHttpRequests { authz ->
+                authz
                     // IP 기반 접근 제한
                     .requestMatchers("/**")
                     .access(createIpAccessManager())
