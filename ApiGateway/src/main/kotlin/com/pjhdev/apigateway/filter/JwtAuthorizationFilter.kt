@@ -18,7 +18,9 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import java.nio.charset.StandardCharsets
 
 
 @Component
@@ -67,13 +69,17 @@ class JwtAuthorizationFilter(var env: Environment) :
     private fun onError(exchange: ServerWebExchange, err: String, httpStatus: HttpStatus, clientMessage: String): Mono<Void?> {
         val response = exchange.response
         response.setStatusCode(httpStatus)
+
         logger.error(err)
-
-//        val bytes = "The requested token is invalid.".toByteArray(StandardCharsets.UTF_8)
-//        val buffer = exchange.response.bufferFactory().wrap(bytes)
-//        return response.writeWith(Flux.just(buffer))
-
-        return response.setComplete();
+        try {
+            val bytes = clientMessage.toByteArray(StandardCharsets.UTF_8)
+            val buffer = exchange.response.bufferFactory().wrap(bytes)
+            return response.writeWith(Mono.just(buffer))
+        }
+        catch (e: Exception) {
+            logger.error("Error writing error response: ${e.message}", e)
+            return response.setComplete();
+        }
     }
 
     data class JwtValidationResult(val isValid: Boolean, val errorMessage: String = "", val clientMessage: String = "")

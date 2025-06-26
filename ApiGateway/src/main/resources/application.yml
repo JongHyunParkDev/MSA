@@ -17,8 +17,14 @@ app:
 
 spring:
   application:
-    name: api-gateway
+    name: Api-Gateway-Service
+  config:
+    import: configserver:http://localhost:8888
   cloud:
+    config:
+      label: master # branch
+      profile: default # profile
+      #name: ecommerce # ecommerce.yaml 가져옴
     gateway:
       default-filters:
         - name: GlobalFilter
@@ -62,12 +68,23 @@ spring:
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
+            - Path=/user-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - StripPrefix=1
+#            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        # 주의 API - GATEWAY 는 같은 path 에 경우 순서에 영향이 있음!
+        # 같은 Path 인 경우 디테일 -> 간단 순으로 작성해야함
+        # 만약 간단 -> 디테일이 되면 필터는 간단만 탈 수 있음.
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
             - Path=/user-service/**
           filters:
             - RemoveRequestHeader=Cookie
             - StripPrefix=1
             - JwtAuthorizationFilter
-#            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: product-service
           uri: lb://PRODUCT-SERVICE
           predicates:
@@ -80,3 +97,13 @@ spring:
             - Path=/order-service/**
           filters:
             - StripPrefix=1
+
+management:
+  endpoint:
+    httptrace:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        #        refresh 사용하면 config 내용을 다시 불러온다, 현재 properties 내용이 val 이라서 변동할 수 없어 보인다. 수정 필요
+        include: refresh, health, beans, httptrace
