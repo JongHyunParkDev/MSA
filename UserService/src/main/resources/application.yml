@@ -20,8 +20,8 @@ spring:
     import: configserver:http://localhost:8888
   cloud:
     config:
-      label: master # branch
-      profile: default # profile
+      label: main # branch
+      profile: default # profile - default - 설정하지 않으면, spring-profiles-active 내용을 쓴다.
       #name: ecommerce # ecommerce.yaml 가져옴
 
 eureka:
