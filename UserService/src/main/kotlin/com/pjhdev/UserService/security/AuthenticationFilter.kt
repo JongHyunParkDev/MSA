@@ -5,7 +5,6 @@ import com.pjhdev.UserService.config.AppProperties
 import com.pjhdev.UserService.service.UserService
 import com.pjhdev.UserService.vo.RequestLogin
 import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
 import jakarta.servlet.FilterChain
@@ -51,7 +50,7 @@ class AuthenticationFilter(
         authResult: Authentication
     ) {
         // email
-        val userName = (authResult!!.principal as User).username
+        val userName = (authResult.principal as User).username
         val userDto = userService.getUserByEmail(userName)
 
         val now = Instant.now()

@@ -1,0 +1,23 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: Config-Server
+#  file - system 사용의 경우
+#  profiles:
+#    active: native
+  cloud:
+    config:
+      server:
+#  file - system 사용의 경우 (git non)
+#        native:
+#          search-locations: file://C:/Users/pjh/Desktop/dev_study/MSA-E-commerce-config/native-file-repo
+        git:
+#          uri: file://C:/Users/pjh/Desktop/dev_study/MSA-E-commerce-config/git-local-repo
+          uri: https://github.com/JongHyunParkDev/MSA-config-service.git
+          default-label: main
+          # private 일 경우
+          # TODO - 실제 오픈한다면 private 로 접근 못하게 막고 아래 내용을 작성한다.
+#          username: [username - jonghyunparkdev]
+#          password: [password - password]
