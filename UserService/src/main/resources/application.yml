@@ -23,6 +23,11 @@ spring:
       label: main # branch
       profile: default # profile - default - 설정하지 않으면, spring-profiles-active 내용을 쓴다.
       #name: ecommerce # ecommerce.yaml 가져옴
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
 
 eureka:
   instance:
@@ -38,7 +43,7 @@ management:
     web:
       exposure:
 #        refresh 사용하면 config 내용을 다시 불러온다, 현재 properties 내용이 val 이라서 변동할 수 없어 보인다. 수정 필요
-        include: refresh, health, beans
+        include: refresh, health, beans, busrefresh
 
 app:
   message: E-Commerce User Service

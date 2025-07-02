@@ -1,25 +1,35 @@
 package com.pjhdev.UserService.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.cloud.context.config.annotation.RefreshScope
+import org.springframework.stereotype.Component
+import jakarta.annotation.PostConstruct
 
+@Component
+@RefreshScope
 @ConfigurationProperties("app")
-data class AppProperties (
-    val message: String,
-    val allowIp: String,
-    val token: Token
-) {
-    data class Token(
-        val access: Access,
-        val refresh: Refresh
-    )
+class AppProperties {
+    var message: String = ""
+    var allowIp: String = ""
+    var token: Token = Token()
 
-    data class Access(
-        val expirationHour: Long,
-        val secret: String
-    )
+    @PostConstruct
+    fun init() {
+        println("AppProperties initialized - allowIp: $allowIp, message: $message")
+    }
 
-    data class Refresh(
-        val expirationHour: Long,
-        val secret: String
-    )
+    class Token {
+        var access: Access = Access()
+        var refresh: Refresh = Refresh()
+    }
+
+    class Access {
+        var expirationHour: Long = 24
+        var secret: String = ""
+    }
+
+    class Refresh {
+        var expirationHour: Long = 168 // 7일
+        var secret: String = ""
+    }
 }

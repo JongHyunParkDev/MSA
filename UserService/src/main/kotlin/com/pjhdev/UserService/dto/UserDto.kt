@@ -32,7 +32,8 @@ data class UserDto(
                 name = userEntity.name,
                 encryptedPassword = userEntity.password,
                 createdAt = userEntity.createdAt,
-                lastModifiedAt = userEntity.lastModifiedAt
+                lastModifiedAt = userEntity.lastModifiedAt,
+                roleId = userEntity.role
             )
         }
 

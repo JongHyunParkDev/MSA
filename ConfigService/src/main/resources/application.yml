@@ -21,3 +21,15 @@ spring:
           # TODO - 실제 오픈한다면 private 로 접근 못하게 막고 아래 내용을 작성한다.
 #          username: [username - jonghyunparkdev]
 #          password: [password - password]
+
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httptrace, busrefresh

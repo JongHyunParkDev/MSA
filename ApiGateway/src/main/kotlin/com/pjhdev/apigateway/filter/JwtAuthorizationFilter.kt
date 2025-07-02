@@ -26,13 +26,8 @@ import java.nio.charset.StandardCharsets
 @Component
 class JwtAuthorizationFilter(var env: Environment) :
     AbstractGatewayFilterFactory<JwtAuthorizationFilter.Config>(Config::class.java) {
-
     val logger = logger()
 
-    private val jwtSecret: ByteArray = Decoders.BASE64.decode(
-        env.getProperty("app.token.access.secret")
-            ?: throw IllegalStateException("JWT 시크릿 키(app.token.access.secret)가 설정되지 않았습니다. application.yml 또는 환경 변수를 확인하세요.")
-    )
     class Config
 
     override fun apply(config: Config?): GatewayFilter {
@@ -51,7 +46,7 @@ class JwtAuthorizationFilter(var env: Environment) :
                 request.headers[HttpHeaders.AUTHORIZATION]!![0]
             val jwt = authorizationHeader.replace("Bearer ", "")
 
-            val validationResult = isJwtValid(jwt, request.path.contextPath().value())
+            val validationResult = isJwtValid(jwt, request.path.value())
 
             if (!validationResult.isValid) {
                 return@GatewayFilter onError(
@@ -89,11 +84,10 @@ class JwtAuthorizationFilter(var env: Environment) :
             // 1. authorization 인증
             val payload = Jwts
                 .parser()
-                .verifyWith(Keys.hmacShaKeyFor(jwtSecret))
+                .verifyWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(env.getProperty("app.token.access.secret"))))
                 .build()
                 .parseSignedClaims(jwt)
                 .payload
-
             // 2. path 확인
             val role = payload["role"] as String
 

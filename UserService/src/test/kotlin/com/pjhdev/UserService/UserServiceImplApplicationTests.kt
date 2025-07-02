@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.*
-import javax.crypto.SecretKey
+
 
 @SpringBootTest
 class UserServiceImplApplicationTests {
@@ -21,8 +21,13 @@ class UserServiceImplApplicationTests {
 		val now = Instant.now()
 		val accessExpiration = now.plus(1, ChronoUnit.HOURS)
 
+		// key generate
+		val key = Jwts.SIG.HS512.key().build();
+		val keyString = Encoders.BASE64.encode(key.encoded);
+
 		val accessToken = Jwts.builder()
 			.subject("parkjonghyun")
+			.claim("role", "ADMIN")
 			.expiration(Date.from(accessExpiration))
 			.signWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode("qzXxcu0eMmiTljmLeiikLY3L2ULGDwbLbNMsvT/oEJ0lr3GGEtx4zVygOwZB94yM+HxmsTYyt09xe8WsxSUf1A==")))
 			.compact()
