@@ -6,10 +6,10 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "tm_order")
-data class OrderEntity(
+class OrderEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
+    var id: Long? = null,
 
     @Column(nullable = false)
     var qty: Int,
