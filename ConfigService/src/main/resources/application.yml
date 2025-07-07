@@ -33,3 +33,18 @@ management:
     web:
       exposure:
         include: refresh, health, beans, httptrace, busrefresh
+
+# Spring Cloud Config Server의 암호화/복호화 기능
+# 생성하면 /encrypt, /decrypt post api 가 생성된다. plain text 넣으면 암복호화 진행된 값이 나옴
+# key - 대칭키, key-store 비대칭키 (RSA 로 생성된 key, password)
+# 비대칭키 생성 example
+# keytool -genkeypair -alias apiEncryptionKey -keyalg RSA -dname "CN=Kenneth Lee, OU=API Development, O=joneconsulting.co.kr, L=Seoul, C=KR" -keypass "1q2w3e4r" -keystore apiEncryptionKey.jks -storepass "1q2w3e4r"
+# [option] 공개키 추출
+  # 1. keytool -export -alias apiEncryptionKey -keystore apiEncryptionKey.jks -rfc -file trustServer.cer
+  # 2. keytool -import -alias trustServer -file trustServer.cer -keystore publicKey.jk
+encrypt:
+#  key: ae4d8ee6547bbab4895f5d8e9bf39de1
+  key-store:
+    location: classpath:apiEncryptionKey.jks
+    password: 1q2w3e4r
+    alias: apiEncryptionKey

@@ -24,12 +24,12 @@ class AppProperties {
     }
 
     class Access {
-        var expirationHour: Long = 24
+        var expirationHour: Long = 1
         var secret: String = ""
     }
 
     class Refresh {
-        var expirationHour: Long = 168 // 7일
+        var expirationHour: Long = 24
         var secret: String = ""
     }
 }

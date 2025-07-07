@@ -4,10 +4,10 @@ server:
 spring:
   application:
     name: User-Service
-  datasource:
-    url: jdbc:postgresql://127.0.0.1:5432/userservice
-    username: userservice
-    password: userservice1234!
+#  datasource:
+#    url: jdbc:postgresql://127.0.0.1:5432/userservice
+#    username: userservice
+#    password: userservice1234!
   jpa:
     properties:
       hibernate:
