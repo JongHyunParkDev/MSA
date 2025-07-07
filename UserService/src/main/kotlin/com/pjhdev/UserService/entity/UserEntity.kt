@@ -14,10 +14,10 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "tm_user")
-data class UserEntity(
+class UserEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
+    var id: Long? = null,
 
     @Column(nullable = false, unique = true)
     var email: String,
