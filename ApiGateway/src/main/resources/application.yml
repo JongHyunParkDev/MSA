@@ -8,12 +8,13 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
 
-app:
-  token:
-    access:
-      secret: qzXxcu0eMmiTljmLeiikLY3L2ULGDwbLbNMsvT/oEJ0lr3GGEtx4zVygOwZB94yM+HxmsTYyt09xe8WsxSUf1A==
-    refresh:
-      secret: ckoQEuWYg3fjSDsb30HPDK9xcTFogHpHkpgj7EBofs+/Ig5Y3CZ6I9gEKK1wcacDolQtukXFcAFJulWvRvCLdA==
+#sprin-config 에서 가져온다.
+#app:
+#  token:
+#    access:
+#      secret: qzXxcu0eMmiTljmLeiikLY3L2ULGDwbLbNMsvT/oEJ0lr3GGEtx4zVygOwZB94yM+HxmsTYyt09xe8WsxSUf1A==
+#    refresh:
+#      secret: ckoQEuWYg3fjSDsb30HPDK9xcTFogHpHkpgj7EBofs+/Ig5Y3CZ6I9gEKK1wcacDolQtukXFcAFJulWvRvCLdA==
 
 spring:
   application:
@@ -32,7 +33,6 @@ spring:
             baseMessage: API Gateway Global Filter
             preLogger: true
             postLogger: true
-
       routes:
         - id: test-service
           uri: lb://TEST-SERVICE
@@ -65,14 +65,15 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - StripPrefix=1
-        - id: user-service
-          uri: lb://USER-SERVICE
-          predicates:
-            - Path=/user-service/actuator/**
-            - Method=GET,POST
-          filters:
-            - RemoveRequestHeader=Cookie
-            - StripPrefix=1
+#       actuator 내용도 jwt filter 를 타도록 변경하기 위해 주석 처리한다.
+#        - id: user-service
+#          uri: lb://USER-SERVICE
+#          predicates:
+#            - Path=/user-service/actuator/**
+#            - Method=GET,POST
+#          filters:
+#            - RemoveRequestHeader=Cookie
+#            - StripPrefix=1
 #            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         # 주의 API - GATEWAY 는 같은 path 에 경우 순서에 영향이 있음!
         # 같은 Path 인 경우 디테일 -> 간단 순으로 작성해야함
@@ -97,6 +98,11 @@ spring:
             - Path=/order-service/**
           filters:
             - StripPrefix=1
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
 
 management:
   endpoint:
@@ -106,4 +112,4 @@ management:
     web:
       exposure:
         #        refresh 사용하면 config 내용을 다시 불러온다, 현재 properties 내용이 val 이라서 변동할 수 없어 보인다. 수정 필요
-        include: refresh, health, beans, httptrace
+        include: refresh, health, beans, httptrace, busrefresh
