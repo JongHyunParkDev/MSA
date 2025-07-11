@@ -40,7 +40,7 @@ class OrderController ( val appProperties: AppProperties,
         val orderDtoList = orderService.getOrdersByUserId(userId)
 
         return ResponseEntity
-            .status(HttpStatus.CREATED)
+            .status(HttpStatus.OK)
             .body(orderDtoList.map { it.toResponseOrder() })
     }
 }

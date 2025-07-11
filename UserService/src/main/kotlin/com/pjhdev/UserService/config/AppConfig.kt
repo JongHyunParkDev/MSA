@@ -9,6 +9,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.web.client.RestTemplate
 
 @Configuration
 class AppConfig {
@@ -28,6 +29,11 @@ class AppConfig {
             // null 값 제외
             setSerializationInclusion(JsonInclude.Include.NON_NULL)
         }
+    }
+
+    @Bean
+    fun restTemplate(): RestTemplate {
+        return RestTemplate()
     }
 
     @Bean
