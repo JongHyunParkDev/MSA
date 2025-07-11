@@ -5,8 +5,6 @@ import com.pjhdev.UserService.entity.UserEntity
 import com.pjhdev.UserService.repository.UserRepository
 import com.pjhdev.UserService.vo.ResponseOrder
 import jakarta.transaction.Transactional
-import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties.Env
-import org.springframework.core.ParameterizedTypeReference
 import org.springframework.core.env.Environment
 import org.springframework.http.HttpMethod
 import org.springframework.http.ResponseEntity
@@ -24,7 +22,7 @@ class UserServiceImpl (
     val userRepository: UserRepository,
     val passwordEncoder: PasswordEncoder,
     val restTemplate: RestTemplate,
-    val env: Environment
+    val env: Environment,
     ): UserService {
 
     @Transactional

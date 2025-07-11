@@ -29,11 +29,11 @@ class UserController (
                 + "\ntoken.access.expirationHour=" + appProperties.token.access.expirationHour
                 + "\ntoken.refresh.secret=" + appProperties.token.refresh.secret
                 + "\ntoken.refresh.expirationHour=" + appProperties.token.refresh.expirationHour
-                + "\n\ndynamic env"
-                + "\ntoken.access.secret=" + env.getProperty("app.token.access.secret")
-                + "\ntoken.access.expirationHour=" + env.getProperty("app.token.access.expiration-hour")
-                + "\ntoken.refresh.secret=" + env.getProperty("app.token.refresh.secret")
-                + "\ntoken.refresh.expirationHour=" + env.getProperty("app.token.refresh.expiration-hour")
+//                + "\n\ndynamic env"
+//                + "\ntoken.access.secret=" + env.getProperty("app.token.access.secret")
+//                + "\ntoken.access.expirationHour=" + env.getProperty("app.token.access.expiration-hour")
+//                + "\ntoken.refresh.secret=" + env.getProperty("app.token.refresh.secret")
+//                + "\ntoken.refresh.expirationHour=" + env.getProperty("app.token.refresh.expiration-hour")
         )
 
         return ResponseEntity.ok(msg)
