@@ -23,6 +23,7 @@ class UserServiceImpl (
     val passwordEncoder: PasswordEncoder,
     val restTemplate: RestTemplate,
     val env: Environment,
+    val orderServiceClient: OrderServiceClient
     ): UserService {
 
     @Transactional
@@ -38,10 +39,12 @@ class UserServiceImpl (
         val userEntity = userRepository.findById(id).get()
 
         // 1. Communication RestTemplate [MSA]
-        val orderUrl = String.format(env.getRequiredProperty("order_service.url"), id)
-        val response: ResponseEntity<List<ResponseOrder>> = restTemplate.exchange(orderUrl, HttpMethod.GET, null)
-        val orderList: List<ResponseOrder>? = response.body
+//        val orderUrl = String.format(env.getRequiredProperty("order_service.url"), id)
+//        val response: ResponseEntity<List<ResponseOrder>> = restTemplate.exchange(orderUrl, HttpMethod.GET, null)
+//        val orderList: List<ResponseOrder>? = response.body
 
+        val orderList: List<ResponseOrder> = orderServiceClient.getOrders(id);
+        
         return UserDto.fromUserEntity(userEntity, orderList)
     }
 
