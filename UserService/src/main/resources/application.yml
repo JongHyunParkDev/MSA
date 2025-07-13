@@ -56,3 +56,6 @@ app:
 #      expiration_hour: 24 # a day
 #      secret: ckoQEuWYg3fjSDsb30HPDK9xcTFogHpHkpgj7EBofs+/Ig5Y3CZ6I9gEKK1wcacDolQtukXFcAFJulWvRvCLdA==
 
+logging:
+  level:
+    com.pjhdev.UserService.client: DEBUG

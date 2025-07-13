@@ -1,13 +1,14 @@
 package com.pjhdev.UserService.service
 
+import com.pjhdev.UserService.client.OrderServiceClient
 import com.pjhdev.UserService.dto.UserDto
 import com.pjhdev.UserService.entity.UserEntity
 import com.pjhdev.UserService.repository.UserRepository
+import com.pjhdev.UserService.util.logger
 import com.pjhdev.UserService.vo.ResponseOrder
+import feign.FeignException
 import jakarta.transaction.Transactional
 import org.springframework.core.env.Environment
-import org.springframework.http.HttpMethod
-import org.springframework.http.ResponseEntity
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
@@ -15,7 +16,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
-import org.springframework.web.client.exchange
 
 @Service
 class UserServiceImpl (
@@ -26,6 +26,7 @@ class UserServiceImpl (
     val orderServiceClient: OrderServiceClient
     ): UserService {
 
+    val logger = logger()
     @Transactional
     override fun createUser(userDto: UserDto): UserDto {
         val userEntity = userDto.toUserEntity(passwordEncoder)
@@ -43,8 +44,20 @@ class UserServiceImpl (
 //        val response: ResponseEntity<List<ResponseOrder>> = restTemplate.exchange(orderUrl, HttpMethod.GET, null)
 //        val orderList: List<ResponseOrder>? = response.body
 
-        val orderList: List<ResponseOrder> = orderServiceClient.getOrders(id);
-        
+
+        val orderList: List<ResponseOrder> = runCatching {
+            orderServiceClient.getOrders(id)
+        }.getOrElse { err ->
+            if (err is FeignException) {
+                logger.error("주문 정보를 가져오는데 실패했습니다: ${err.message}")
+            } else {
+                logger.error("예기치 않은 오류 발생: ${err.message}", err)
+                // 다른 종류의 예외이거나, 복구 불가능한 경우 다시 던질 수 있습니다.
+                throw err
+            }
+            emptyList() // 실패 시 orderList에 할당할 기본값 (예: 빈 리스트)
+        }
+
         return UserDto.fromUserEntity(userEntity, orderList)
     }
 

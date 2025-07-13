@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import feign.Logger
 import org.springframework.cloud.client.loadbalancer.LoadBalanced
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -41,5 +42,11 @@ class AppConfig {
     @Bean
     fun passwordEncoder(): BCryptPasswordEncoder {
         return BCryptPasswordEncoder()
+    }
+
+    // feign client log 처리
+    @Bean
+    fun feignLoggerLevel(): Logger.Level {
+        return Logger.Level.FULL
     }
 }

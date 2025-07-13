@@ -1,4 +1,4 @@
-package com.pjhdev.UserService.service
+package com.pjhdev.UserService.client
 
 import com.pjhdev.UserService.vo.ResponseOrder
 import org.springframework.cloud.openfeign.FeignClient
