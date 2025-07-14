@@ -23,7 +23,7 @@ class UserServiceImpl (
     val passwordEncoder: PasswordEncoder,
     val restTemplate: RestTemplate,
     val env: Environment,
-    val orderServiceClient: OrderServiceClient
+    val orderServiceClient: OrderServiceClient,
     ): UserService {
 
     val logger = logger()
@@ -44,20 +44,22 @@ class UserServiceImpl (
 //        val response: ResponseEntity<List<ResponseOrder>> = restTemplate.exchange(orderUrl, HttpMethod.GET, null)
 //        val orderList: List<ResponseOrder>? = response.body
 
+//            error 처리 코드 #1
+//        val orderList: List<ResponseOrder> = runCatching {
+//            orderServiceClient.getOrders(id)
+//        }.getOrElse { err ->
+//            if (err is FeignException) {
+//                logger.error("주문 정보를 가져오는데 실패했습니다: ${err.message}")
+//            } else {
+//                logger.error("예기치 않은 오류 발생: ${err.message}", err)
+//                // 다른 종류의 예외이거나, 복구 불가능한 경우 다시 던질 수 있습니다.
+//                throw err
+//            }
+//            emptyList() // 실패 시 orderList에 할당할 기본값 (예: 빈 리스트)
+//        }
 
-        val orderList: List<ResponseOrder> = runCatching {
-            orderServiceClient.getOrders(id)
-        }.getOrElse { err ->
-            if (err is FeignException) {
-                logger.error("주문 정보를 가져오는데 실패했습니다: ${err.message}")
-            } else {
-                logger.error("예기치 않은 오류 발생: ${err.message}", err)
-                // 다른 종류의 예외이거나, 복구 불가능한 경우 다시 던질 수 있습니다.
-                throw err
-            }
-            emptyList() // 실패 시 orderList에 할당할 기본값 (예: 빈 리스트)
-        }
-
+//        error 처리 코드 #2
+        val orderList: List<ResponseOrder> = orderServiceClient.getOrders(id)
         return UserDto.fromUserEntity(userEntity, orderList)
     }
 

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.pjhdev.UserService.error.FeignErrorDecoder
 import feign.Logger
 import org.springframework.cloud.client.loadbalancer.LoadBalanced
 import org.springframework.context.annotation.Bean
@@ -48,5 +49,10 @@ class AppConfig {
     @Bean
     fun feignLoggerLevel(): Logger.Level {
         return Logger.Level.FULL
+    }
+
+    @Bean
+    fun getFeignErrorDecoder(): FeignErrorDecoder {
+        return FeignErrorDecoder()
     }
 }
